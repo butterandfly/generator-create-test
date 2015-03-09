@@ -6,22 +6,35 @@ var helpers = require('yeoman-generator').test;
 var os = require('os');
 
 describe('create-test:app', function () {
-  before(function (done) {
-    helpers.run(path.join(__dirname, '../app'))
-      .inDir(path.join(os.tmpdir(), './temp-test'))
-      .withOptions({ 'skip-install': true })
-      .withPrompt({
-        someOption: true
-      })
-      .on('end', done);
+  describe('create normal test', function() {
+    before(function (done) {
+      helpers.run(path.join(__dirname, '../app'))
+        .inDir(path.join(os.tmpdir(), './temp-test'))
+        .withArguments('normalTest')
+        //.withOptions({ 'skip-install': true })
+        .on('end', done);
+    });
+
+    it('creates test file', function () {
+      assert.file([
+        'normalTest.js'
+      ]);
+    });
   });
 
-  it('creates files', function () {
-    assert.file([
-      'bower.json',
-      'package.json',
-      '.editorconfig',
-      '.jshintrc'
-    ]);
+  describe('create test in path', function() {
+    before(function (done) {
+      helpers.run(path.join(__dirname, '../app'))
+        .inDir(path.join(os.tmpdir(), './temp-test'))
+        .withArguments('normalTest')
+        .withOptions({ 'skip-install': true, 'path': 'createPath' })
+        .on('end', done);
+    });
+
+    it('creates test file in specific path', function () {
+      assert.file([
+        'createPath/normalTest.js'
+      ]);
+    });
   });
 });
