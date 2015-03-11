@@ -16,3 +16,8 @@ yo create-test testName --path=tests
 ```
 yo create-test testName --path=tests/e2e --protractor
 ```
+
+生成protractor配置文件
+```
+yo create-test configName --protractorConfig
+```

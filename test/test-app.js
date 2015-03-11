@@ -11,7 +11,7 @@ describe('create-test:app', function () {
       helpers.run(path.join(__dirname, '../app'))
         .inDir(path.join(os.tmpdir(), './temp-test'))
         .withArguments('normalTest')
-        //.withOptions({ 'skip-install': true })
+        .withOptions({ 'skip-install': true })
         .on('end', done);
     });
 
@@ -35,6 +35,22 @@ describe('create-test:app', function () {
       assert.file([
         'createPath/normalTest.js'
       ]);
+    });
+  });
+
+  describe('create protractor config file', function() {
+    before(function (done) {
+      helpers.run(path.join(__dirname, '../app'))
+        .inDir(path.join(os.tmpdir(), './temp-test'))
+        .withArguments('conf')
+        .withOptions({ 'skip-install': true, 'protractorConfig': true })
+        .on('end', done);
+    });
+
+    it('creates a config file', function () {
+      assert.fileContent(
+        'conf.js', /exports\.config/
+      );
     });
   });
 });

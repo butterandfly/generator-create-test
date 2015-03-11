@@ -14,15 +14,17 @@ module.exports = yeoman.generators.Base.extend({
 
     this.argument('testName', {type: String, required: false});
     this.option('path', {type: String, defaults: './'});
-    this.option('protractor', {type: Boolean, defaults: './'});
+    this.option('protractor', {type: Boolean, defaults: false});
+    this.option('protractorConfig', {type: Boolean, defaults: false});
   },
 
   prompting: function () {
     //var done = this.async();
 
-    this.log(yosay(
-      '欢迎使用' + chalk.red('create-test') + '！'
-    ));
+    //this.log(yosay(
+    //  '欢迎使用' + chalk.red('create-test') + '！'
+    //));
+    this.log('欢迎使用' + chalk.red('create-test') + '！');
 
     //var prompts = [{
     //  type: 'confirm',
@@ -38,19 +40,6 @@ module.exports = yeoman.generators.Base.extend({
     //}.bind(this));
   },
 
-  //writing: {
-  //  app: function () {
-  //    this.fs.copy(
-  //      this.templatePath('_package.json'),
-  //      this.destinationPath('package.json')
-  //    );
-  //    this.fs.copy(
-  //      this.templatePath('_bower.json'),
-  //      this.destinationPath('bower.json')
-  //    );
-  //  }
-  //},
-
   writing: function() {
     var testName = this.testName;
     var testFilePath = path.join(this.options.path, testName + '.js');
@@ -59,10 +48,13 @@ module.exports = yeoman.generators.Base.extend({
     if (this.options.protractor) {
       tplFile = '_protractorTest.js'
     }
+    if (this.options.protractorConfig) {
+      tplFile = '_protractorConf.js';
+    }
 
     this.fs.copy(
       this.templatePath(tplFile),
-      testFilePath
+      this.destinationPath(testFilePath)
     )
   }
 });
